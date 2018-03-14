@@ -14,6 +14,7 @@ VOLUME /app/uploads
 RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 0E163286C20D07B9787EBE9FD7F9D0414FD08104
 
 ENV RC_VERSION 0.62.2
+ENV DIFF_COMMIT c2ae44f1ed978075a1314778a05d5ee14bf7fe26.diff
 
 WORKDIR /app
 
@@ -22,7 +23,10 @@ RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/download" -o rocket.ch
 &&  gpg --batch --verify rocket.chat.tgz.asc rocket.chat.tgz \
 &&  tar zxvf rocket.chat.tgz \
 &&  rm rocket.chat.tgz rocket.chat.tgz.asc \
-&&  cd bundle/programs/server \
+&&  cd bundle/programs \
+&&  wget "https://github.com/RocketChat/Rocket.Chat/commit/${DIFF_COMMIT}" \
+&&  git apply ${DIFF_COMMIT} \
+&&  cd server \
 &&  npm install
 
 USER rocketchat
