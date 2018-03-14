@@ -18,16 +18,18 @@ ENV DIFF_COMMIT c2ae44f1ed978075a1314778a05d5ee14bf7fe26.diff
 
 WORKDIR /app
 
-RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/download" -o rocket.chat.tgz \
-&&  curl -fSL "https://releases.rocket.chat/${RC_VERSION}/asc" -o rocket.chat.tgz.asc \
-&&  gpg --batch --verify rocket.chat.tgz.asc rocket.chat.tgz \
-&&  tar zxvf rocket.chat.tgz \
-&&  rm rocket.chat.tgz rocket.chat.tgz.asc \
-&&  cd bundle/programs \
-&&  wget "https://github.com/RocketChat/Rocket.Chat/commit/${DIFF_COMMIT}" \
-&&  git apply ${DIFF_COMMIT} \
-&&  cd server \
-&&  npm install
+RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/download" -o rocket.chat.tgz 
+RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/asc" -o rocket.chat.tgz.asc 
+RUN gpg --batch --verify rocket.chat.tgz.asc rocket.chat.tgz
+RUN tar zxvf rocket.chat.tgz
+RUN rm rocket.chat.tgz rocket.chat.tgz.asc
+
+WORKDIR /app/bundle/programs
+RUN wget "https://github.com/RocketChat/Rocket.Chat/commit/${DIFF_COMMIT}"
+RUN git apply ${DIFF_COMMIT}
+
+WORKDIR /app/bundle/programs/server
+RUN npm install
 
 USER rocketchat
 
