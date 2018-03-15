@@ -19,7 +19,8 @@ ENV DIFF_COMMIT c2ae44f1ed978075a1314778a05d5ee14bf7fe26.diff
 WORKDIR /app
 
 RUN apt-get update
-RUN apt-get install --yes git
+RUN apt-get install --yes git bsdtar
+RUN export tar='bsdtar'
 
 RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/download" -o rocket.chat.tgz 
 RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/asc" -o rocket.chat.tgz.asc 
