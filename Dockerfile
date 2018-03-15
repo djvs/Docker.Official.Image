@@ -18,10 +18,13 @@ ENV DIFF_COMMIT c2ae44f1ed978075a1314778a05d5ee14bf7fe26.diff
 
 WORKDIR /app
 
+RUN apt-get update
+RUN apt-get install --yes git
+
 RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/download" -o rocket.chat.tgz 
 RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/asc" -o rocket.chat.tgz.asc 
 RUN gpg --batch --verify rocket.chat.tgz.asc rocket.chat.tgz
-RUN tar zxvf rocket.chat.tgz
+RUN tar zxf rocket.chat.tgz
 RUN rm rocket.chat.tgz rocket.chat.tgz.asc
 
 WORKDIR /app/bundle/programs
