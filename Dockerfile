@@ -25,7 +25,7 @@ RUN export tar='bsdtar'
 RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/download" -o rocket.chat.tgz 
 RUN curl -fSL "https://releases.rocket.chat/${RC_VERSION}/asc" -o rocket.chat.tgz.asc 
 RUN gpg --batch --verify rocket.chat.tgz.asc rocket.chat.tgz
-RUN tar zxf rocket.chat.tgz
+RUN bsdtar zxf rocket.chat.tgz
 RUN rm rocket.chat.tgz rocket.chat.tgz.asc
 
 WORKDIR /app/bundle/programs
