@@ -30,6 +30,7 @@ RUN rm rocket.chat.tgz rocket.chat.tgz.asc
 
 WORKDIR /app/bundle/programs
 RUN wget "https://github.com/RocketChat/Rocket.Chat/commit/${DIFF_COMMIT}"
+RUN ls -la
 RUN git apply ${DIFF_COMMIT}
 
 WORKDIR /app/bundle/programs/server
